@@ -39,6 +39,7 @@ You may wish to move the files to root folder, so that you can access nuxbill di
 ```
 sudo mv /var/www/html/phpnuxbill/* /var/www/html
 ```
+Make sure you do the above before running final installaton of phpnuxbill e.g http://host-or-ip/install
 
 
 ## Tested
