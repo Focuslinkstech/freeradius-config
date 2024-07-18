@@ -31,3 +31,11 @@ sudo chmod +x install.sh
 sudo ./install.sh
 ```
 
+## Note
+This shell script is tested successfully on
+
+- **Ubuntu 24.04  LTS**
+- **Ubuntu 22.04  LTS**
+- **Ubuntu 20.04  LTS**
+- **Ubuntu 18.04  LTS**
+
