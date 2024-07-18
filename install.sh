@@ -148,12 +148,7 @@ if [[ $sql =~ ^[Yy]$ ]]; then
              GRANT ALL PRIVILEGES ON $dbname.* TO '$dbuser'@'localhost';
              FLUSH PRIVILEGES;"
 
-        if [[ $db_server == "MySQL" ]]; then
-            sudo $MYSQL -uroot -p"$pswd" -e "$SQL"
-        elif [[ $db_server == "MariaDB" ]]; then
-            sudo $MYSQL -uroot -p"$pswd" -e "$SQL"
-        fi
-
+        sudo $MYSQL -uroot -p"$pswd" -e "$SQL"
         echo "Database '$dbname' and user '$dbuser' created successfully!"
         sleep 2
     fi
@@ -209,7 +204,6 @@ case $n in
     sudo ln -s ../mods-available/sqlcounter sqlcounter
     cd
     # sudo ln -s "$freeradius_config_dir/mods-available/sql" "$freeradius_config_dir/mods-enabled/"
-    sudo $MYSQL -u$dbuser -p$pswd $dbname < $freeradius_config_dir/mods-config/sql/main/mysql/schema.sql
     sudo mv $freeradius_config_dir/sites-available/default $freeradius_config_dir/sites-available/default.back
     sudo cp ~/freeradius-config/config-files/default $freeradius_config_dir/sites-available/default
     sudo mv $freeradius_config_dir/sites-available/inner-tunnel $freeradius_config_dir/sites-available/inner-tunnel.back
@@ -218,18 +212,20 @@ case $n in
     sudo cp ~/freeradius-config/config-files/sql $freeradius_config_dir/mods-available/sql
     sudo mv $freeradius_config_dir/mods-available/sqlcounter $freeradius_config_dir/mods-available/sqlcounter.back
     sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
-    sudo cp -r ~/freeradius-config/config-files/mysql $freeradius_config_dir/mods-config/sql/counter/mysql
+    sudo cp -r ~/freeradius-config/config-files/mysql $freeradius_config_dir/mods-config/sql/counter/
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i "s|password = \"testing\"|#password = \"testing\"|" "$freeradius_config_dir/mods-available/sql"
     sudo sed -Ei '/^[\t\s#]*tls\s+\{/, /[\t\s#]*\}/ s/^/#/' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i "s|#user = \"radcheck\"|user = \"$dbuser\"|" "$freeradius_config_dir/mods-available/sql"
     sudo sed -i "s|#password = \"radcheck\"|password = \"$pswd\"|" "$freeradius_config_dir/mods-available/sql"
     sudo sed -i "s|#radius_db = \"radius\"|radius_db = \"$dbname\"|" "$freeradius_config_dir/mods-available/sql"
+    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < "$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
 
     # Start FreeRADIUS
     sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sql
     sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sqlcounter
     sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sql
+    sudo chgrp -h freerad $freeradius_config_dir/mods-config/sql/counter/mysql
     sudo systemctl enable freeradius
     sudo systemctl start freeradius
     sleep 2
@@ -264,7 +260,6 @@ case $n in
     sudo ln -s ../mods-available/sqlcounter sqlcounter
     cd
     # sudo ln -s "$freeradius_config_dir/mods-available/sql" "$freeradius_config_dir/mods-enabled/"
-    sudo $MYSQL -u$dbuser -p$pswd $dbname < $freeradius_config_dir/mods-config/sql/main/mysql/schema.sql
     sudo mv $freeradius_config_dir/sites-available/default $freeradius_config_dir/sites-available/default.back
     sudo cp ~/freeradius-config/config-files/default $freeradius_config_dir/sites-available/default
     sudo mv $freeradius_config_dir/sites-available/inner-tunnel $freeradius_config_dir/sites-available/inner-tunnel.back
@@ -280,6 +275,7 @@ case $n in
     sudo sed -i "s|#user = \"radcheck\"|user = \"$dbuser\"|" "$freeradius_config_dir/mods-available/sql"
     sudo sed -i "s|#password = \"radcheck\"|password = \"$pswd\"|" "$freeradius_config_dir/mods-available/sql"
     sudo sed -i "s|#radius_db = \"radius\"|radius_db = \"$dbname\"|" "$freeradius_config_dir/mods-available/sql"
+    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < "$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
 
     # Start FreeRADIUS
     sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sql
