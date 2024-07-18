@@ -11,13 +11,21 @@ sudo apt-get install git
 ```
 sudo git clone https://github.com/Focuslinkstech/freeradius-config.git
 ```
+```
+cd freeradius-config
+sudo chmod +x install.sh
+sudo ./install.sh
+```
 ## Install using WGET
+```
+sudo apt-get install wget
+```
 ```
 wget https://github.com/Focuslinkstech/freeradius-config/archive/refs/heads/main.zip
 unzip *.zip
 ```
 ```
-cd freeradius-config
+cd freeradius-config-main
 sudo chmod +x install.sh
 sudo ./install.sh
 ```
