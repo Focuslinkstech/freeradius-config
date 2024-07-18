@@ -318,7 +318,7 @@ Your server's IP address is: $(hostname -I | awk '{print $2}')
 - Database Information:
 - Host: localhost
 - Username: $dbuser
-- Password: $pswd
+- Password: Your Password
 - Database Name: $dbname
 - To access PHPNuxBill, visit:
 - http://$(hostname -I | awk '{print $2}')/phpnuxbill/install/
