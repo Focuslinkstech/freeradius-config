@@ -223,7 +223,7 @@ case $n in
     sudo mv $freeradius_config_dir/mods-available/sql $freeradius_config_dir/mods-available/sql.back
     sudo cp ~/freeradius-config/config-files/sql $freeradius_config_dir/mods-available/sql
     sudo mv $freeradius_config_dir/mods-available/sqlcounter $freeradius_config_dir/mods-available/sqlcounter.back
-	sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
+    sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
     sudo cp -r ~/freeradius-config/config-files/mysql $freeradius_config_dir/mods-config/sql/counter/mysql
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i "s|password = \"testing\"|#password = \"testing\"|" "$freeradius_config_dir/mods-available/sql"
@@ -269,7 +269,7 @@ case $n in
     sudo ln -s ../mods-available/sql sql
     sudo ln -s ../mods-available/sqlcounter sqlcounter
     cd
-   # sudo ln -s "$freeradius_config_dir/mods-available/sql" "$freeradius_config_dir/mods-enabled/"
+    # sudo ln -s "$freeradius_config_dir/mods-available/sql" "$freeradius_config_dir/mods-enabled/"
     sudo $MYSQL -u$dbuser -p$pswd $dbname < $freeradius_config_dir/mods-config/sql/main/mysql/schema.sql
     sudo mv $freeradius_config_dir/sites-available/default $freeradius_config_dir/sites-available/default.back
     sudo cp ~/freeradius-config/config-files/default $freeradius_config_dir/sites-available/default
@@ -278,7 +278,7 @@ case $n in
     sudo mv $freeradius_config_dir/mods-available/sql $freeradius_config_dir/mods-available/sql.back
     sudo cp ~/freeradius-config/config-files/sql $freeradius_config_dir/mods-available/sql
     sudo mv $freeradius_config_dir/mods-available/sqlcounter $freeradius_config_dir/mods-available/sqlcounter.back
-	sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
+    sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
     sudo cp -r ~/freeradius-config/config-files/mysql $freeradius_config_dir/mods-config/sql/counter/mysql
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i "s|password = \"testing\"|#password = \"testing\"|" "$freeradius_config_dir/mods-available/sql"
