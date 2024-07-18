@@ -165,8 +165,6 @@ if [[ $webserver =~ ^[Yy]$ ]]; then
     echo ">>> Installing WebServer <<<"
     sudo apt-get install -y apache2 php php-curl php-mbstring php-xml php-gd php-dev php-pear php-ssh2 libmcrypt-dev mcrypt make php-json php-bcmath php-intl php-mysql php-ldap php-zip php-soap php-imap php-memcached php-redis php-apcu
     sleep 2
-    sudo pecl install mcrypt-1.0.1
-    echo -ne '\n'
     echo ">>> Finished Installing WebServer <<<"
     sleep 2
 fi
@@ -183,7 +181,7 @@ case $n in
 1)
     # Install PHPNuxBill
     echo "Installing PHPNuxBill..."
-    git clone https://github.com/phpnuxbill/phpnuxbill.git
+    git clone https://github.com/hotspotbilling/phpnuxbill.git
     sudo mv phpnuxbill /var/www/html/
     sudo chown -R www-data:www-data /var/www/html/phpnuxbill
     sudo chmod -R 755 /var/www/html/phpnuxbill
@@ -243,7 +241,7 @@ case $n in
     echo ">>> Installing PHPNuxBill <<<"
     sleep 2
     sudo apt-get install -y git
-    git clone https://github.com/phpnuxbill/phpnuxbill.git
+    git clone https://github.com/hotspotbilling/phpnuxbill.git
     sudo mv phpnuxbill /var/www/html/
     sudo chown -R www-data:www-data /var/www/html/phpnuxbill
     sudo chmod -R 755 /var/www/html/phpnuxbill
