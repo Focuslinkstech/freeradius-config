@@ -216,9 +216,9 @@ case $n in
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i "s|password = \"testing\"|#password = \"testing\"|" "$freeradius_config_dir/mods-available/sql"
     sudo sed -Ei '/^[\t\s#]*tls\s+\{/, /[\t\s#]*\}/ s/^/#/' "$freeradius_config_dir/mods-available/sql"
-    sudo sed -i "s|#login = \"radius\"|login = /'"${dbuser}"'/" "$freeradius_config_dir/mods-available/sql"
-    sudo sed -i "s|#password = \"radpass\"|password = /'"${dbpass}"'/" "$freeradius_config_dir/mods-available/sql"
-    sudo sed -i "s|radius_db = \"radius\"|radius_db = /'"${dbname}"'/" "$freeradius_config_dir/mods-available/sql"
+    sudo sed -i "s|#login = \"radius\"|login = /'"$dbuser"'/" "$freeradius_config_dir/mods-available/sql"
+    sudo sed -i "s|#password = \"radpass\"|password = /'"$dbpass"'/" "$freeradius_config_dir/mods-available/sql"
+    sudo sed -i "s|radius_db = \"radius\"|radius_db = /'"$dbname"'/" "$freeradius_config_dir/mods-available/sql"
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < "$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
 
 
@@ -273,9 +273,9 @@ case $n in
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i "s|password = \"testing\"|#password = \"testing\"|" "$freeradius_config_dir/mods-available/sql"
     sudo sed -Ei '/^[\t\s#]*tls\s+\{/, /[\t\s#]*\}/ s/^/#/' "$freeradius_config_dir/mods-available/sql"
-    sudo sed -i "s|#login = \"radius\"|login = /'"${dbuser}"'/" "$freeradius_config_dir/mods-available/sql"
-    sudo sed -i "s|#password = \"radpass\"|password = /'"${dbpass}"'/" "$freeradius_config_dir/mods-available/sql"
-    sudo sed -i "s|radius_db = \"radius\"|radius_db = /'"${dbname}"'/" "$freeradius_config_dir/mods-available/sql"
+    sudo sed -i "s|#login = \"radius\"|login = /'"$dbuser"'/" "$freeradius_config_dir/mods-available/sql"
+    sudo sed -i "s|#password = \"radpass\"|password = /'"$dbpass"'/" "$freeradius_config_dir/mods-available/sql"
+    sudo sed -i "s|radius_db = \"radius\"|radius_db = /'"$dbname"'/" "$freeradius_config_dir/mods-available/sql"
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < "$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
 
     # Start FreeRADIUS
