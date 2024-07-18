@@ -25,7 +25,8 @@ wget https://github.com/Focuslinkstech/freeradius-config/archive/refs/heads/main
 unzip *.zip
 ```
 ```
-cd freeradius-config-main
+sudo mv freeradius-config-main freeradius-config
+cd freeradius-config
 sudo chmod +x install.sh
 sudo ./install.sh
 ```
