@@ -214,7 +214,6 @@ case $n in
     sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
     sudo cp -r ~/freeradius-config/config-files/mysql/* $freeradius_config_dir/mods-config/sql/counter/mysql/
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
-    sudo sed -i "s|password = \"testing\"|#password = \"testing\"|" "$freeradius_config_dir/mods-available/sql"
     sudo sed -Ei '/^[\t\s#]*tls\s+\{/, /[\t\s#]*\}/ s/^/#/' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i 's|login = ""|login = '"$dbuser"'|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i 's|password = ""|password = '"$dbpass"'|' "$freeradius_config_dir/mods-available/sql"
@@ -271,7 +270,6 @@ case $n in
     sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
     sudo cp -r ~/freeradius-config/config-files/mysql/* $freeradius_config_dir/mods-config/sql/counter/mysql/
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
-    sudo sed -i "s|password = \"testing\"|#password = \"testing\"|" "$freeradius_config_dir/mods-available/sql"
     sudo sed -Ei '/^[\t\s#]*tls\s+\{/, /[\t\s#]*\}/ s/^/#/' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i 's|login = ""|login = '"$dbuser"'|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i 's|password = ""|password = '"$dbpass"'|' "$freeradius_config_dir/mods-available/sql"
@@ -297,10 +295,10 @@ echo ">>> Finished Restarting Apache <<<"
 sleep 2
 
 # Restart MariaDB or MySQL
-echo ">>> Restarting $db_server"
-sudo systemctl stop $db_server
-sudo systemctl enable $db_server
-sudo systemctl start $db_server
+echo ">>> Restarting Database"
+sudo systemctl stop $MYSQL
+sudo systemctl enable $MYSQL
+sudo systemctl start $MYSQL
 echo ">>> Finished Restarting $db_server <<<"
 sleep 2
 
