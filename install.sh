@@ -20,9 +20,12 @@ echo "
 #  After the installation, the script will restart Apache to       #
 #  ensure all changes take effect.                                 #
 #                                                                  #
+#  Donate: https://paypal.me/focuslinkstech                        #
+#  Support: https://t.me/focuslinkstech                            #
+#                                                                  #
 ####################################################################
 "
-sleep 2
+sleep 5
 
 # Update & Upgrade
 read -r -p "Do you want to update this system [y/n]? " update
