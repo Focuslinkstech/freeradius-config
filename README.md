@@ -18,6 +18,9 @@ sudo ./install.sh
 ```
 ## Install using WGET
 ```
+sudo apt-get install wget
+```
+```
 wget https://github.com/Focuslinkstech/freeradius-config/archive/refs/heads/main.zip
 unzip *.zip
 ```
