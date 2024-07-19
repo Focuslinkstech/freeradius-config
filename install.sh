@@ -229,7 +229,7 @@ case $n in
     sudo sed -i 's|password = ""|password = '"$dbpass"'|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i 's|radius_db = ""|radius_db = '"$dbname"'|' "$freeradius_config_dir/mods-available/sql"
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" <"$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
-    sudo sed -i '/^\/\/ Database Radius/a\
+    sudo sed -i '/^\$_app_stage = '"'"'Live'"'"'; # Do not change this/a\
     $radius_host = '"'"'localhost'"'"';\
     $radius_user = '"'"$dbuser"'"';\
     $radius_pass = '"'"$dbpass"'"';\
@@ -296,29 +296,14 @@ case $n in
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" <"$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" </var/www/html/phpnuxbill/install/phpnuxbill.sql
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" </var/www/html/phpnuxbill/install/radius.sql
-
-    echo "dbuser: $dbuser"
-    echo "dbpass: $dbpass"
-    echo "dbname: $dbname"
-
-    config_content=$(
-        cat <<EOF
-    \$radius_host = 'localhost';
-    \$radius_user = '$dbuser';
-    \$radius_pass = '$dbpass';
-    \$radius_name = '$dbname';
-EOF
-    )
-
-    # Insert the configuration content into config.php after // Database PHPNuxBill
-    awk -v config="$config_content" '/^\/\/ Database PHPNuxBill/ {
-    print;
-    print config;
-    next
-}1' /var/www/html/phpnuxbill/config.php >/tmp/config.php && sudo mv /tmp/config.php /var/www/html/phpnuxbill/config.php
-
-    echo "Database configuration added to /var/www/html/phpnuxbill/config.php"
-
+    sudo sed -i '/^\$_app_stage = '"'"'Live'"'"'; # Do not change this/a\
+    $radius_host = '"'"'localhost'"'"';\
+    $radius_user = '"'"$dbuser"'"';\
+    $radius_pass = '"'"$dbpass"'"';\
+    $radius_name = '"'"$dbname"'"';' /var/www/html/phpnuxbill/config.php
+    sleep 2
+    echo "Configurations added to config.php"
+    sleep 2
     # Start FreeRADIUS
     sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sql
     sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sqlcounter
@@ -327,6 +312,7 @@ EOF
     sudo systemctl start freeradius
     sleep 2
     echo ">>> Finished Installing FreeRADIUS Server and PHPNuxBill <<<"
+    sleep 2
     ;;
 esac
 
