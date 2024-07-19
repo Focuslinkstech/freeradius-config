@@ -222,7 +222,6 @@ case $n in
     sudo cp ~/freeradius-config/config-files/sql $freeradius_config_dir/mods-available/sql
     sudo mv $freeradius_config_dir/mods-available/sqlcounter $freeradius_config_dir/mods-available/sqlcounter.back
     sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
-#    sudo cp ~/freeradius-config/config-files/radiusd.conf $freeradius_config_dir/radiusd.conf
     sudo cp -r ~/freeradius-config/config-files/mysql/* $freeradius_config_dir/mods-config/sql/counter/mysql/
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -Ei '/^[\t\s#]*tls\s+\{/, /[\t\s#]*\}/ s/^/#/' "$freeradius_config_dir/mods-available/sql"
@@ -258,9 +257,9 @@ case $n in
     sudo chown -R www-data:www-data /var/www/html/phpnuxbill
     sudo chmod -R 755 /var/www/html/phpnuxbill
     sudo cp /var/www/html/phpnuxbill/config.sample.php /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_user = ""|$db_user = '"$dbuser"'|' /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_password = ""|$db_password = '"$dbpass"'|' /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_name = ""|$db_name = '"$dbname"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_user         = "root"|$db_user = '"$dbuser"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_password     = ""|$db_password = '"$dbpass"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_name         = "phpnuxbill"|$db_name = '"$dbname"'|' /var/www/html/phpnuxbill/config.php
     sleep 2
 
     # Install FreeRADIUS
@@ -289,7 +288,6 @@ case $n in
     sudo cp ~/freeradius-config/config-files/sql $freeradius_config_dir/mods-available/sql
     sudo mv $freeradius_config_dir/mods-available/sqlcounter $freeradius_config_dir/mods-available/sqlcounter.back
     sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
-    # sudo cp ~/freeradius-config/config-files/radiusd.conf $freeradius_config_dir/radiusd.conf
     sudo cp -r ~/freeradius-config/config-files/mysql/* $freeradius_config_dir/mods-config/sql/counter/mysql/
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -Ei '/^[\t\s#]*tls\s+\{/, /[\t\s#]*\}/ s/^/#/' "$freeradius_config_dir/mods-available/sql"
@@ -299,12 +297,16 @@ case $n in
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < "$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < /var/www/html/phpnuxbill/install/phpnuxbill.sql
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < /var/www/html/phpnuxbill/install/radius.sql
+
+    echo "dbuser: $dbuser"
+    echo "dbpass: $dbpass"
+    echo "dbname: $dbname"
+
     sudo sed -i '/^\/\/ Database Radius/a\
     $radius_host = '"'"'localhost'"'"';\
     $radius_user = '"'"$dbuser"'"';\
     $radius_pass = '"'"$dbpass"'"';\
     $radius_name = '"'"$dbname"'"';' /var/www/html/phpnuxbill/config.php
-    sudo rm -r /var/www/html/phpnuxbill/install
 
     # Start FreeRADIUS
     sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sql
