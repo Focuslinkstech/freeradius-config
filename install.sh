@@ -86,7 +86,7 @@ if [[ $sql =~ ^[Yy]$ ]]; then
                     sudo systemctl enable mysql
                 fi
             fi
-            echo ">>> Finished Installing MySQL"
+            echo ">>> Finished Installing MySQL <<<"
             sleep 2
             echo
             break
@@ -127,7 +127,7 @@ if [[ $sql =~ ^[Yy]$ ]]; then
                     sudo systemctl enable mariadb
                 fi
             fi
-            echo ">>> Finished Installing MariaDB"
+            echo ">>> Finished Installing MariaDB <<<"
             sleep 2
             echo
             break
