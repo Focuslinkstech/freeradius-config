@@ -222,7 +222,7 @@ case $n in
     sudo cp ~/freeradius-config/config-files/sql $freeradius_config_dir/mods-available/sql
     sudo mv $freeradius_config_dir/mods-available/sqlcounter $freeradius_config_dir/mods-available/sqlcounter.back
     sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
-    sudo cp ~/freeradius-config/config-files/radiusd.conf $freeradius_config_dir/radiusd.conf
+#    sudo cp ~/freeradius-config/config-files/radiusd.conf $freeradius_config_dir/radiusd.conf
     sudo cp -r ~/freeradius-config/config-files/mysql/* $freeradius_config_dir/mods-config/sql/counter/mysql/
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -Ei '/^[\t\s#]*tls\s+\{/, /[\t\s#]*\}/ s/^/#/' "$freeradius_config_dir/mods-available/sql"
@@ -289,7 +289,7 @@ case $n in
     sudo cp ~/freeradius-config/config-files/sql $freeradius_config_dir/mods-available/sql
     sudo mv $freeradius_config_dir/mods-available/sqlcounter $freeradius_config_dir/mods-available/sqlcounter.back
     sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
-    sudo cp ~/freeradius-config/config-files/radiusd.conf $freeradius_config_dir/radiusd.conf
+    # sudo cp ~/freeradius-config/config-files/radiusd.conf $freeradius_config_dir/radiusd.conf
     sudo cp -r ~/freeradius-config/config-files/mysql/* $freeradius_config_dir/mods-config/sql/counter/mysql/
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -Ei '/^[\t\s#]*tls\s+\{/, /[\t\s#]*\}/ s/^/#/' "$freeradius_config_dir/mods-available/sql"
