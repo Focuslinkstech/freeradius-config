@@ -33,13 +33,13 @@ sudo ./install.sh
 
 ## Note
 After Successful Installation without error
-Vistit http://host-or-ip/phpnuxbill/install 
+Vistit http://host-or-ip/phpnuxbill/ 
 Replace [host-or-ip] with your ip address or hostname
-You may wish to move the files to root folder, so that you can access nuxbill directly without sub-folder e.g http://host-or-ip/install
+You may wish to move the files to root folder, so that you can access nuxbill directly without sub-folder e.g http://host-or-ip/
 ```
 sudo mv /var/www/html/phpnuxbill/* /var/www/html
 ```
-Make sure you do the above before running final installaton of phpnuxbill e.g http://host-or-ip/install
+
 
 
 ## Tested
@@ -49,4 +49,5 @@ This shell script is tested successfully on
 - **Ubuntu 22.04  LTS**
 - **Ubuntu 20.04  LTS**
 - **Ubuntu 18.04  LTS**
+- **Debian 10, 11, 12**
 
