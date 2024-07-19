@@ -28,23 +28,27 @@ echo "
 sleep 5
 
 # Update & Upgrade
-read -r -p "Do you want to update this system [y/n]? " update
+read -r -p "Do you want to update this system [Y/n]? " update
+update=${update:-Y}
 if [[ $update =~ ^[Yy]$ ]]; then
     sudo apt-get update -y
     read -r -p "Do you want to upgrade this system [y/n]? " upgrade
+    upgrade=${upgrade:-Y}
     if [[ $upgrade =~ ^[Yy]$ ]]; then
         sudo apt-get upgrade -y
     fi
 fi
 
 # Install additional modules
-read -r -p "Install wget, curl, git, zip, unzip [y/n]? " modules
+read -r -p "Install wget, curl, git, zip, unzip [Y/n]? " modules
+modules=${modules:-Y}
 if [[ $modules =~ ^[Yy]$ ]]; then
     sudo apt-get install -y wget curl git zip unzip
 fi
 
 # Install Database
-read -r -p "Install Database [y/n]? " sql
+read -r -p "Install Database [Y/n]? " sql
+sql=${sql:-Y}
 if [[ $sql =~ ^[Yy]$ ]]; then
     # Choose your database server
     echo "Choose your database server:"
@@ -56,7 +60,8 @@ if [[ $sql =~ ^[Yy]$ ]]; then
 
             # Make MySQL connectable from outside world without SSH tunnel
             echo ''
-            read -r -p "Enable remote access for MySQL [y/n]? " remotemysql
+            read -r -p "Enable remote access for MySQL [N/y]? " remotemysql
+            remotemysql=${remotemysql:-N}
             if [[ $remotemysql =~ ^[Yy]$ ]]; then
                 if [ -z $1 ]; then
                     echo ''
@@ -97,7 +102,8 @@ if [[ $sql =~ ^[Yy]$ ]]; then
 
             # Make MariaDB connectable from outside world without SSH tunnel
             echo ''
-            read -r -p "Enable remote access for MariaDB [y/n]? " remotemysql
+            read -r -p "Enable remote access for MariaDB [N/y]? " remotemysql
+             remotemysql=${remotemysql:-N}
             if [[ $remotemysql =~ ^[Yy]$ ]]; then
                 if [ -z $1 ]; then
                     echo ''
@@ -138,7 +144,8 @@ if [[ $sql =~ ^[Yy]$ ]]; then
         esac
     done
     # Create new database and user
-    read -r -p "Do you want to create a new database and user [y/n]? " create_db_user
+    read -r -p "Do you want to create a new database and user [Y/n]? " create_db_user
+    create_db_user=${create_db_user:-Y}
     if [[ $create_db_user =~ ^[Yy]$ ]]; then
         read -r -p "Enter new database name: " dbname
         read -r -p "Enter new username: " dbuser
@@ -158,7 +165,8 @@ if [[ $sql =~ ^[Yy]$ ]]; then
 fi
 
 # Install Webserver
-read -r -p "Install Webserver (Apache2 & PHP) [y/n]? " webserver
+read -r -p "Install Webserver (Apache2 & PHP) [Y/n]? " webserver
+webserver=${webserver:-Y}
 if [[ $webserver =~ ^[Yy]$ ]]; then
     echo ">>> Installing WebServer <<<"
     sudo apt-get install -y apache2 php php-curl php-mbstring php-xml php-gd php-dev php-pear php-ssh2 libmcrypt-dev mcrypt make php-json php-bcmath php-intl php-mysql php-ldap php-zip php-soap php-imap php-memcached php-redis php-apcu
@@ -263,9 +271,11 @@ case $n in
 
     # Install FreeRADIUS
     echo ">>> Installing FreeRADIUS Server <<<"
+    sleep 2
     sudo apt-get install -y freeradius freeradius-mysql freeradius-utils
     sleep 2
     echo ">>> Configuring FreeRADIUS Server <<<"
+    sleep 2
     # Check the FreeRADIUS configuration directory
     if [ -d "/etc/freeradius/3.0" ]; then
         freeradius_config_dir="/etc/freeradius/3.0"
@@ -302,7 +312,7 @@ case $n in
     $radius_pass = '"'"$dbpass"'"';\
     $radius_name = '"'"$dbname"'"';' /var/www/html/phpnuxbill/config.php
     sleep 2
-    echo "Configurations added to config.php"
+    echo ">>> Configurations added to config.php <<<"
     sleep 2
     # Start FreeRADIUS
     sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sql
@@ -324,7 +334,8 @@ echo ">>> Finished Restarting Apache <<<"
 sleep 2
 
 # Restart MariaDB or MySQL
-echo ">>> Restarting Database"
+echo ">>> Restarting Database <<<"
+sleep 2
 sudo systemctl stop $MYSQL
 sudo systemctl enable $MYSQL
 sudo systemctl start $MYSQL
@@ -333,11 +344,14 @@ sleep 2
 
 # Restart FreeRADIUS
 echo ">>> Restarting FreeRADIUS"
+sleep 2
 sudo systemctl stop freeradius
-sudo pkill -f radius
+sudo pkill -f freeradius
 sudo systemctl enable freeradius
 sudo systemctl restart freeradius
+sleep 2
 echo ">>> Finished Restarting FreeRADIUS <<<"
+sleep 2
 
 # Display IP Address
 echo "
