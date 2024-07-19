@@ -179,10 +179,17 @@ case $n in
 1)
     # Install PHPNuxBill
     echo "Installing PHPNuxBill..."
+    sleep 2
     git clone https://github.com/hotspotbilling/phpnuxbill.git
     sudo mv phpnuxbill /var/www/html/
     sudo chown -R www-data:www-data /var/www/html/phpnuxbill
     sudo chmod -R 755 /var/www/html/phpnuxbill
+    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < /var/www/html/phpnuxbill/install/phpnuxbill.sql
+    sudo cp /var/www/html/phpnuxbill/config.sample.php /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_user = ""|$db_user = '"$dbuser"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_password = ""|$db_password = '"$dbpass"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_name = ""|$db_name = '"$dbname"'|' /var/www/html/phpnuxbill/config.php
+    sudo rm -r /var/www/html/phpnuxbill/install
     sleep 2
     echo ">>> Finished Installing PHPNuxBill <<<"
     sleep 2
@@ -223,6 +230,11 @@ case $n in
     sudo sed -i 's|password = ""|password = '"$dbpass"'|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i 's|radius_db = ""|radius_db = '"$dbname"'|' "$freeradius_config_dir/mods-available/sql"
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < "$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
+    sudo sed -i '/^\/\/ Database Radius/a\
+    $radius_host = '"'"'localhost'"'"';\
+    $radius_user = '"'"$dbuser"'"';\
+    $radius_pass = '"'"$dbpass"'"';\
+    $radius_name = '"'"$dbname"'"';' /var/www/html/phpnuxbill/config.php
 
 
     # Start FreeRADIUS
@@ -245,6 +257,11 @@ case $n in
     sudo mv phpnuxbill /var/www/html/
     sudo chown -R www-data:www-data /var/www/html/phpnuxbill
     sudo chmod -R 755 /var/www/html/phpnuxbill
+    sudo cp /var/www/html/phpnuxbill/config.sample.php /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_user = ""|$db_user = '"$dbuser"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_password = ""|$db_password = '"$dbpass"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_name = ""|$db_name = '"$dbname"'|' /var/www/html/phpnuxbill/config.php
+    sleep 2
 
     # Install FreeRADIUS
     echo ">>> Installing FreeRADIUS Server <<<"
@@ -280,6 +297,14 @@ case $n in
     sudo sed -i 's|password = ""|password = '"$dbpass"'|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i 's|radius_db = ""|radius_db = '"$dbname"'|' "$freeradius_config_dir/mods-available/sql"
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < "$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
+    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < /var/www/html/phpnuxbill/install/phpnuxbill.sql
+    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < /var/www/html/phpnuxbill/install/radius.sql
+    sudo sed -i '/^\/\/ Database Radius/a\
+    $radius_host = '"'"'localhost'"'"';\
+    $radius_user = '"'"$dbuser"'"';\
+    $radius_pass = '"'"$dbpass"'"';\
+    $radius_name = '"'"$dbname"'"';' /var/www/html/phpnuxbill/config.php
+    sudo rm -r /var/www/html/phpnuxbill/install
 
     # Start FreeRADIUS
     sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sql
@@ -326,6 +351,6 @@ Your server's IP address is: $(hostname -I | awk '{print $2}')
 - Password: Your Password
 - Database Name: $dbname
 - To access PHPNuxBill, visit:
-- http://$(hostname -I | awk '{print $2}')/phpnuxbill/install/
+- http://$(hostname -I | awk '{print $2}')/phpnuxbill/
 "
 echo "LAMP (with $db_server), essential PHP extensions, FreeRADIUS, and PHPNuxBill have been installed successfully!"
