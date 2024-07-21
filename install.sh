@@ -192,11 +192,12 @@ case $n in
     sudo mv phpnuxbill /var/www/html/
     sudo chown -R www-data:www-data /var/www/html/phpnuxbill
     sudo chmod -R 755 /var/www/html/phpnuxbill
-    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" </var/www/html/phpnuxbill/install/phpnuxbill.sql
+    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < /var/www/html/phpnuxbill/install/phpnuxbill.sql
     sudo cp /var/www/html/phpnuxbill/config.sample.php /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_user = ""|$db_user = '"$dbuser"'|' /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_password = ""|$db_password = '"$dbpass"'|' /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_name = ""|$db_name = '"$dbname"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_user         = "root"|$db_user = '"$dbuser"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_password     = ""|$db_password = '"$dbpass"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_name         = "phpnuxbill"|$db_name = '"$dbname"'|' /var/www/html/phpnuxbill/config.php
+    sleep 2
     sudo rm -r /var/www/html/phpnuxbill/install
     sleep 2
     echo ">>> Finished Installing PHPNuxBill <<<"
@@ -236,7 +237,7 @@ case $n in
     sudo sed -i 's|login = ""|login = '"$dbuser"'|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i 's|password = ""|password = '"$dbpass"'|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i 's|radius_db = ""|radius_db = '"$dbname"'|' "$freeradius_config_dir/mods-available/sql"
-    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" <"$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
+    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < "$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
     sudo sed -i '/^\$_app_stage = '"'"'Live'"'"'; # Do not change this/a\
     $radius_host = '"'"'localhost'"'"';\
     $radius_user = '"'"$dbuser"'"';\
@@ -303,15 +304,16 @@ case $n in
     sudo sed -i 's|login = ""|login = '"$dbuser"'|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i 's|password = ""|password = '"$dbpass"'|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -i 's|radius_db = ""|radius_db = '"$dbname"'|' "$freeradius_config_dir/mods-available/sql"
-    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" <"$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
-    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" </var/www/html/phpnuxbill/install/phpnuxbill.sql
-    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" </var/www/html/phpnuxbill/install/radius.sql
+    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < "$freeradius_config_dir/mods-config/sql/main/mysql/schema.sql"
+    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < /var/www/html/phpnuxbill/install/phpnuxbill.sql
+    sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < /var/www/html/phpnuxbill/install/radius.sql
     sudo sed -i '/^\$_app_stage = '"'"'Live'"'"'; # Do not change this/a\
     $radius_host = '"'"'localhost'"'"';\
     $radius_user = '"'"$dbuser"'"';\
     $radius_pass = '"'"$dbpass"'"';\
     $radius_name = '"'"$dbname"'"';' /var/www/html/phpnuxbill/config.php
     sleep 2
+    sudo rm -r /var/www/html/phpnuxbill/install
     echo ">>> Configurations added to config.php <<<"
     sleep 2
     # Start FreeRADIUS
