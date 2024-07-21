@@ -218,11 +218,12 @@ case $n in
     fi
 
     # Configure FreeRADIUS to use the MySQL credentials and other neccessary configurations
-    cd "$freeradius_config_dir/mods-enabled"
-    sudo ln -s ../mods-available/sql sql
-    sudo ln -s ../mods-available/sqlcounter sqlcounter
-    cd
-    # sudo ln -s "$freeradius_config_dir/mods-available/sql" "$freeradius_config_dir/mods-enabled/"
+    #cd "$freeradius_config_dir/mods-enabled"
+    #sudo ln -s ../mods-available/sql sql
+    #sudo ln -s ../mods-available/sqlcounter sqlcounter
+    #cd
+    sudo ln -s "$freeradius_config_dir/mods-available/sql" "$freeradius_config_dir/mods-enabled/"
+    sudo mv $freeradius_config_dir/radiusd.conf $freeradius_config_dir/radiusd.conf.back
     sudo mv $freeradius_config_dir/sites-available/default $freeradius_config_dir/sites-available/default.back
     sudo cp ~/freeradius-config/config-files/default $freeradius_config_dir/sites-available/default
     sudo mv $freeradius_config_dir/sites-available/inner-tunnel $freeradius_config_dir/sites-available/inner-tunnel.back
@@ -231,6 +232,7 @@ case $n in
     sudo cp ~/freeradius-config/config-files/sql $freeradius_config_dir/mods-available/sql
     sudo mv $freeradius_config_dir/mods-available/sqlcounter $freeradius_config_dir/mods-available/sqlcounter.back
     sudo cp ~/freeradius-config/config-files/sqlcounter $freeradius_config_dir/mods-available/sqlcounter
+    sudo cp ~/freeradius-config/config-files/radiusd.conf $freeradius_config_dir/radiusd.conf
     sudo cp -r ~/freeradius-config/config-files/mysql/* $freeradius_config_dir/mods-config/sql/counter/mysql/
     sudo sed -i 's|driver = "rlm_sql_null"|driver = "rlm_sql_mysql"|' "$freeradius_config_dir/mods-available/sql"
     sudo sed -Ei '/^[\t\s#]*tls\s+\{/, /[\t\s#]*\}/ s/^/#/' "$freeradius_config_dir/mods-available/sql"
@@ -352,23 +354,23 @@ echo ">>> Restarting FreeRADIUS"
 sleep 2
 sudo systemctl stop freeradius
 sudo pkill -f freeradius
-sudo systemctl enable freeradius
-sudo systemctl restart freeradius
+sudo systemctl start freeradius
 sleep 2
 echo ">>> Finished Restarting FreeRADIUS <<<"
 sleep 2
 
 # Display IP Address
 echo "
-Your server's IP address is: $(hostname -I | awk '{print $2}')
+Your server's IP address is: $(hostname -I | awk '{print $1}')
 
-# Display Database Information
 - Database Information:
 - Host: localhost
 - Username: $dbuser
 - Password: Your Password
 - Database Name: $dbname
 - To access PHPNuxBill, visit:
-- http://$(hostname -I | awk '{print $2}')/phpnuxbill/
+- http://$(hostname -I | awk '{print $1}')/phpnuxbill/admin
+- Username: admin
+- Password: admin
 "
 echo "LAMP (with $db_server), essential PHP extensions, FreeRADIUS, and PHPNuxBill have been installed successfully!"
