@@ -290,7 +290,7 @@ case $n in
     #sudo ln -s ../mods-available/sqlcounter sqlcounter
     #cd
     sudo ln -s "$freeradius_config_dir/mods-available/sql" "$freeradius_config_dir/mods-enabled/"
-    sudo ln -s "$freeradius_config_dir/mods-available/sqlcounter" "$freeradius_config_dir/mods-enabled/"
+    #sudo ln -s "$freeradius_config_dir/mods-available/sqlcounter" "$freeradius_config_dir/mods-enabled/"
     sudo mv $freeradius_config_dir/sites-available/default $freeradius_config_dir/sites-available/default.back
     sudo cp ~/freeradius-config/config-files/default $freeradius_config_dir/sites-available/default
     sudo mv $freeradius_config_dir/sites-available/inner-tunnel $freeradius_config_dir/sites-available/inner-tunnel.back
