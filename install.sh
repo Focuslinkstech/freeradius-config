@@ -330,6 +330,7 @@ esac
 
 # Restart Apache
 echo ">>> Restarting Apache"
+sleep 2
 sudo systemctl enable apache2
 sudo systemctl restart apache2
 echo ">>> Finished Restarting Apache <<<"
