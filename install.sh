@@ -32,7 +32,7 @@ read -r -p "Do you want to update this system [Y/n]? " update
 update=${update:-Y}
 if [[ $update =~ ^[Yy]$ ]]; then
     sudo apt-get update -y
-    read -r -p "Do you want to upgrade this system [y/n]? " upgrade
+    read -r -p "Do you want to upgrade this system [Y/n]? " upgrade
     upgrade=${upgrade:-Y}
     if [[ $upgrade =~ ^[Yy]$ ]]; then
         sudo apt-get upgrade -y
