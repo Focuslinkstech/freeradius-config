@@ -248,8 +248,8 @@ case $n in
 
     # Start FreeRADIUS
     sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sql
-    sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sqlcounter
-    sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sql
+    sudo chgrp -h freerad $freeradius_config_dir/mods-available/sqlcounter
+    sudo chgrp -h freerad $freeradius_config_dir/mods-available/sql
     sudo chgrp -h freerad $freeradius_config_dir/mods-config/sql/counter/mysql
     sudo systemctl enable freeradius
     sudo systemctl start freeradius
@@ -322,8 +322,8 @@ case $n in
     sleep 2
     # Start FreeRADIUS
     sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sql
-    sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sqlcounter
-    sudo chgrp -h freerad $freeradius_config_dir/mods-enabled/sql
+    sudo chgrp -h freerad $freeradius_config_dir/mods-available/sqlcounter
+    sudo chgrp -h freerad $freeradius_config_dir/mods-available/sql
     sudo systemctl enable freeradius
     sudo systemctl start freeradius
     sleep 2
