@@ -194,9 +194,9 @@ case $n in
     sudo chmod -R 755 /var/www/html/phpnuxbill
     sudo $MYSQL -u"$dbuser" -p"$dbpass" "$dbname" < /var/www/html/phpnuxbill/install/phpnuxbill.sql
     sudo cp /var/www/html/phpnuxbill/config.sample.php /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_user         = "root"|$db_user = '"$dbuser"'|' /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_password     = ""|$db_password = '"$dbpass"'|' /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_name         = "phpnuxbill"|$db_name = '"$dbname"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_user         = "root"|$db_user = '"'"$dbuser"'"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_password     = ""|$db_password = '"'"$dbpass"'"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_name         = "phpnuxbill"|$db_name = '"'"$dbname"'"'|' /var/www/html/phpnuxbill/config.php
     sleep 2
     sudo rm -r /var/www/html/phpnuxbill/install
     sleep 2
@@ -267,9 +267,9 @@ case $n in
     sudo chown -R www-data:www-data /var/www/html/phpnuxbill
     sudo chmod -R 755 /var/www/html/phpnuxbill
     sudo cp /var/www/html/phpnuxbill/config.sample.php /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_user         = "root"|$db_user = '"$dbuser"'|' /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_password     = ""|$db_password = '"$dbpass"'|' /var/www/html/phpnuxbill/config.php
-    sudo sed -i 's|$db_name         = "phpnuxbill"|$db_name = '"$dbname"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_user         = "root"|$db_user = '"'"$dbuser"'"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_password     = ""|$db_password = '"'"$dbpass"'"'|' /var/www/html/phpnuxbill/config.php
+    sudo sed -i 's|$db_name         = "phpnuxbill"|$db_name = '"'"$dbname"'"'|' /var/www/html/phpnuxbill/config.php
     sleep 2
 
     # Install FreeRADIUS
