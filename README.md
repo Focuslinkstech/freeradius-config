@@ -35,9 +35,15 @@ sudo ./install.sh
 After Successful Installation without error
 Vistit http://host-or-ip/phpnuxbill/ 
 Replace [host-or-ip] with your ip address or hostname
-You may wish to move the files to root folder, so that you can access nuxbill directly without sub-folder e.g http://host-or-ip/
+You may wish to move the files to root folder, so that you can access nuxbill directly without sub-folder e.g http://host-or-ip/ and also remove index.html the default apache file
 ```
 sudo mv /var/www/html/phpnuxbill/* /var/www/html
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R 755 /var/www/html
+cd /var/www/html/
+sudo rm -i index.html
+cd
+
 ```
 
 
